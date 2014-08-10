@@ -11,9 +11,9 @@ import ru.yandex.bolts.function.Function1B;
 import com.naver.helloworld.resort.domain.Guest;
 import com.naver.helloworld.resort.repository.GuestRepository;
 
-public class BoltImpl implements ReservationService {
+public class BoltService implements ReservationService {
 	private GuestRepository repository;
-	public BoltImpl(GuestRepository repository) {
+	public BoltService(GuestRepository repository) {
 		this.repository = repository;
 	}
 

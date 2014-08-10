@@ -26,7 +26,7 @@ public class ReservationServiceTest  {
 
 	@Test
 	public void bolt(){
-		assertImpl(new BoltImpl(repositry));
+		assertImpl(new BoltService(repositry));
 	}	
 
 	@Test
