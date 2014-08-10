@@ -2,14 +2,14 @@ package com.naver.helloworld.resort.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import com.naver.helloworld.resort.domain.Guest;
 
@@ -19,12 +19,15 @@ public class ClassicJdbcRepository implements GuestRepository {
 		this.jdbc = new JdbcTemplate(dataSource);
 	}
 	
-	private static final String SELECT_ALL = "SELECT name, grade, company FROM guests";
-	private List<Guest> savedGuest = new ArrayList<>();
+	private static final String SELECT_ALL = "SELECT name, grade, company FROM guest";
 
 	@Override
 	public void save(Guest... guests) {
-		savedGuest.addAll(Arrays.asList(guests));
+		SimpleJdbcInsert insertStmt = new SimpleJdbcInsert(jdbc).withTableName("guest");
+		for ( Guest guest: guests) {
+			BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(guest);
+			insertStmt.execute(params);
+		}
 	}
 	
 	public List<Guest> findAll() {
