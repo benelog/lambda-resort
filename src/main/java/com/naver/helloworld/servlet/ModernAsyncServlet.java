@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "AsyncDispatchServlet", urlPatterns = { "/asyncDispatch" }, asyncSupported = true)
-public class AsyncDispatchLambdaServlet extends HttpServlet {
+public class ModernAsyncServlet extends HttpServlet {
 	private static final long serialVersionUID = 222L;
 
 	@Override
