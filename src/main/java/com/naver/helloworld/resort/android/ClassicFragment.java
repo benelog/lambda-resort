@@ -1,5 +1,6 @@
 package com.naver.helloworld.resort.android;
 
+import android.R;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 
-public class GuestFinderClassicFragment extends Fragment {
+public class ClassicFragment extends Fragment {
 	private static final String TAG = "GuestFinderFragment";
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedState) {
@@ -19,8 +20,8 @@ public class GuestFinderClassicFragment extends Fragment {
 	}
 	
     public void onViewCreated(View view, Bundle savedInstanceState) {
-		Button calcButton = (Button) view.findViewById(0);
-		Button sendButton = (Button) view.findViewById(0);
+		Button calcButton = (Button) view.findViewById(R.id.button1);
+		Button sendButton = (Button) view.findViewById(R.id.button2);
 
 		calcButton.setOnClickListener(new OnClickListener() {
             @Override
