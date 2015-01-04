@@ -12,10 +12,10 @@ import org.springframework.stereotype.Repository;
 import com.naver.helloworld.resort.domain.Guest;
 
 @Repository
-public class JinqService implements ReservationService {
+public class JinqResort implements ResortService {
 	private EntityManager em;
 	@Autowired
-	public JinqService(EntityManager em) {
+	public JinqResort(EntityManager em) {
 		this.em = em;
 	}
 	public List<String> findGuestNamesOfCompany(String company) {

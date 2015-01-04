@@ -10,9 +10,9 @@ import ch.lambdaj.function.convert.PropertyExtractor;
 import com.naver.helloworld.resort.domain.Guest;
 import com.naver.helloworld.resort.repository.GuestRepository;
 
-public class LambdaJService implements ReservationService {
+public class LambdaJResort implements ResortService {
 	private GuestRepository repository;
-	public LambdaJService(GuestRepository repository) {
+	public LambdaJResort(GuestRepository repository) {
 		this.repository = repository;
 	}
 

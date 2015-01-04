@@ -27,8 +27,7 @@ public class ModernJdbcRepository implements GuestRepository {
 	}
 
 	public List<Guest> findAll() {
-		return jdbc.query(SELECT_ALL, 
-			(rs, rowNum) ->new Guest (
+		return jdbc.query(SELECT_ALL, (rs, rowNum) -> new Guest (
 					rs.getInt("id"), 
 					rs.getString("name"), 
 					rs.getString("company"),

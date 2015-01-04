@@ -8,9 +8,9 @@ import java.util.List;
 import com.naver.helloworld.resort.domain.Guest;
 import com.naver.helloworld.resort.repository.GuestRepository;
 
-public class ClassicJavaService implements ReservationService {
+public class ClassicJavaResort implements ResortService {
 	private GuestRepository repository;
-	public ClassicJavaService(GuestRepository repository) {
+	public ClassicJavaResort(GuestRepository repository) {
 		this.repository = repository;
 	}
 

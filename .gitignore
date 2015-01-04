@@ -7,4 +7,9 @@ build/
 *.iml
 *.ipr
 *.iws
-.idea/*
+.idea/
+.exploded/
+modules/
+.cache
+.ceylon/
+xtend-gen/

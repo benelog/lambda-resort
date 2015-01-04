@@ -10,9 +10,9 @@ import org.op4j.functions.IFunction;
 import com.naver.helloworld.resort.domain.Guest;
 import com.naver.helloworld.resort.repository.GuestRepository;
 
-public class Op4JService implements ReservationService {
+public class Op4JResort implements ResortService {
 	private GuestRepository repository;
-	public Op4JService(GuestRepository repository) {
+	public Op4JResort(GuestRepository repository) {
 		this.repository = repository;
 	}
 

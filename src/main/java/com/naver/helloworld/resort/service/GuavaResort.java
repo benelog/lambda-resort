@@ -1,17 +1,17 @@
 package com.naver.helloworld.resort.service;
 
-import java.util.Comparator;
 import java.util.List;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Ordering;
 import com.naver.helloworld.resort.domain.Guest;
 import com.naver.helloworld.resort.repository.GuestRepository;
 
-public class GuavaService implements ReservationService {
+public class GuavaResort implements ResortService {
 	private GuestRepository repository;
-	public GuavaService(GuestRepository repository) {
+	public GuavaResort(GuestRepository repository) {
 		this.repository = repository;
 	}
 
@@ -25,12 +25,13 @@ public class GuavaService implements ReservationService {
 					return company.equals(g.getCompany());
 				}
 			})
-			.toSortedList(new Comparator<Guest>() {
-					public int compare(Guest o1, Guest o2) {
-						return Integer.compare(o1.getGrade(), o2.getGrade());
-					}
-			});
-		 	
+			.toSortedList(Ordering.natural()
+				.onResultOf(new Function<Guest, Integer>() {
+					 public Integer apply(Guest g) {
+						 return g.getGrade();
+					 }
+			}));
+		
 		 return FluentIterable.from(sorted).transform(new Function<Guest, String>() {
 			 public String apply(Guest g) {
 				return g.getName();

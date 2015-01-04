@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 
 import com.naver.helloworld.resort.domain.Guest;
 import com.naver.helloworld.resort.repository.GuestRepository;
-public class ModernJavaService implements ReservationService {
+public class ModernJavaResort implements ResortService {
 	private GuestRepository repository;
-	public ModernJavaService(GuestRepository repository) {
+	public ModernJavaResort(GuestRepository repository) {
 		this.repository = repository;
 	}
 

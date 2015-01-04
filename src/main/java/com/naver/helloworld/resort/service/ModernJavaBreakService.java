@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 import com.naver.helloworld.resort.domain.Guest;
 import com.naver.helloworld.resort.repository.GuestRepository;
 
-public class ModernJavaBreakService implements ReservationService {
+public class ModernJavaBreakService implements ResortService {
 	private GuestRepository repository;
 	public ModernJavaBreakService(GuestRepository repository) {
 		this.repository = repository;

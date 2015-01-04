@@ -13,9 +13,9 @@ import fj.Ord;
 import fj.Ordering;
 import fj.data.Stream;
 
-public class FunctionalJavaService implements ReservationService {
+public class FunctionalJavaResort implements ResortService {
 	private GuestRepository repository;
-	public FunctionalJavaService(GuestRepository repository) {
+	public FunctionalJavaResort(GuestRepository repository) {
 		this.repository = repository;
 	}
 

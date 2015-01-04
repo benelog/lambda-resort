@@ -21,7 +21,7 @@ public class Guest implements Serializable {
 	private String company;
 
 	public Guest(){}
-	public Guest(Integer id, String name, String company, Integer grade) {
+	public Guest(int id, String name, String company, int grade) {
 		this.id = id;
 		this.grade = grade;
 		this.name = name;

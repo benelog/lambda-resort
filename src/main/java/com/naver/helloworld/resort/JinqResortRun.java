@@ -8,17 +8,17 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import com.naver.helloworld.resort.service.JinqService;
-import com.naver.helloworld.resort.service.ReservationService;
+import com.naver.helloworld.resort.service.JinqResort;
+import com.naver.helloworld.resort.service.ResortService;
 
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
-public class JinqServiceRun {
+public class JinqResortRun {
 	
 	public static void main(String[] args) {
-		ConfigurableApplicationContext context = SpringApplication.run(JinqServiceRun.class);
-		ReservationService service = context.getBean(JinqService.class);
+		ConfigurableApplicationContext context = SpringApplication.run(JinqResortRun.class);
+		ResortService service = context.getBean(JinqResort.class);
 		List<String> names = service.findGuestNamesOfCompany("naver");
 		System.out.println(names);
 		context.close();

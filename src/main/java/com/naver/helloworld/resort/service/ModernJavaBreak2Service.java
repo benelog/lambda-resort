@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 import com.naver.helloworld.resort.domain.Guest;
 import com.naver.helloworld.resort.repository.GuestRepository;
 
-public class ModernJavaBreak2Service implements ReservationService {
+public class ModernJavaBreak2Service implements ResortService {
 	private GuestRepository repository;
 	public ModernJavaBreak2Service(GuestRepository repository) {
 		this.repository = repository;
