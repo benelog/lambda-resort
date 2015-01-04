@@ -4,6 +4,9 @@ build/
 .gradle/
 .project
 .settings/
+.externalToolBuilders/
+.springBeans
+
 *.iml
 *.ipr
 *.iws
