@@ -1,6 +1,5 @@
 package com.naver.helloworld.resort.service;
 
-import java.util.Comparator;
 import java.util.List;
 
 import org.op4j.Op;
@@ -24,9 +23,9 @@ public class Op4JResort implements ResortService {
 					return company.equals(g.getCompany());
 				}
 			})
-			.sort(new Comparator<Guest>() {
-				public int compare(Guest o1, Guest o2) {
-					return Integer.compare(o1.getGrade(), o2.getGrade());
+			.sortBy(new IFunction<Guest, Integer>() {
+				public Integer execute(Guest g, ExecCtx ctx) throws Exception {
+					return g.getGrade();
 				}
 			})
 			.map(new IFunction<Guest, String>() {
@@ -34,6 +33,5 @@ public class Op4JResort implements ResortService {
 					return g.getName();
 				}
 			}).get();
-		
 	}
 }
