@@ -18,24 +18,25 @@ public class GuavaResort implements ResortService {
 	public List<String> findGuestNamesOfCompany(final String company) {
 		List<Guest> all = repository.findAll();
 
-		// filter and sort
 		List<Guest> sorted = FluentIterable.from(all)
 			.filter(new Predicate<Guest>() {
 				public boolean apply(Guest g) {
 					return company.equals(g.getCompany());
 				}
 			})
-			.toSortedList(Ordering.natural()
-				.onResultOf(new Function<Guest, Integer>() {
-					 public Integer apply(Guest g) {
-						 return g.getGrade();
-					 }
+			.toSortedList(Ordering.natural().onResultOf(
+				new Function<Guest, Integer>() {
+					public Integer apply(Guest g) {
+						return g.getGrade();
+					}
 			}));
 		
-		 return FluentIterable.from(sorted).transform(new Function<Guest, String>() {
-			 public String apply(Guest g) {
-				return g.getName();
-			}
-		}).toList();
+		return FluentIterable.from(sorted)
+				.transform(new Function<Guest, String>() {
+					public String apply(Guest g) {
+						return g.getName();
+					}
+				})
+				.toList();
 	}
 }
