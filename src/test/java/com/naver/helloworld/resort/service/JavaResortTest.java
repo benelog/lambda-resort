@@ -49,6 +49,11 @@ public class JavaResortTest  {
 		assertImpl(new FunctionalJavaResort(repository));
 	}
 	
+	@Test
+	public void totallyLazy(){
+		assertImpl(new TotallyLazyResort(repository));
+	}
+
 	private void assertImpl(ResortService service) {
 		repository.save(
 			new Guest(1, "jsh", "naver", 15),

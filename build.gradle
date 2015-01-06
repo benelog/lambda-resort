@@ -29,7 +29,13 @@ compileGroovy {
 	// workaround for conflict with the 'xtend' plugin
 }
 
-repositories { jcenter() }
+repositories { 
+	jcenter()
+	maven {
+		url "http://repo.bodar.com/"
+	}
+
+}
 
 sourceSets {
 	main.java.srcDirs += 'src/main/xtend'
@@ -43,6 +49,7 @@ dependencies {
 	compile 'com.google.guava:guava:17.0'
 	compile 'org.op4j:op4j:1.2'
 	compile 'org.functionaljava:functionaljava:4.1'
+	compile group:'com.googlecode.totallylazy', name:'totallylazy', version:'1049'
 	compile 'org.codehaus.groovy:groovy-all:2.3.6'
 	compile 'org.scala-lang:scala-library:2.11.1'
 	compile 'org.eclipse.xtext:org.eclipse.xtext.xbase.lib.slim:2.7.+'
