@@ -19,7 +19,7 @@ public class FunctionalJavaResort implements ResortService {
 		this.repository = repository;
 	}
 
-	public List<String> findGuestNamesOfCompany(String company) {
+	public List<String> findGuestNamesOfCompany(final String company) {
 		List<Guest> all = repository.findAll();
 
 		Collection<String> mapped = Stream.iterableStream(all)

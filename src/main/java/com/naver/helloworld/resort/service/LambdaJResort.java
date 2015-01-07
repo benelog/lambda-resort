@@ -16,7 +16,7 @@ public class LambdaJResort implements ResortService {
 		this.repository = repository;
 	}
 
-	public List<String> findGuestNamesOfCompany(String company) {
+	public List<String> findGuestNamesOfCompany(final String company) {
 		List<Guest> all = repository.findAll();
 		List<Guest> filtered = filter(having(on(Guest.class).getCompany(), equalTo(company)), all);
 		List<Guest> sorted = sort(filtered, on(Guest.class).getGrade());
