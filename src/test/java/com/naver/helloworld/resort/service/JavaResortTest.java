@@ -54,6 +54,11 @@ public class JavaResortTest  {
 		assertImpl(new TotallyLazyResort(repository));
 	}
 
+	@Test
+	public void gsCollection(){
+		assertImpl(new GsCollectionResort(repository));
+	}
+	
 	private void assertImpl(ResortService service) {
 		repository.save(
 			new Guest(1, "jsh", "naver", 15),
