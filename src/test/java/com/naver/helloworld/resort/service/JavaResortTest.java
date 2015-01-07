@@ -55,8 +55,8 @@ public class JavaResortTest  {
 	}
 
 	@Test
-	public void gsCollection(){
-		assertImpl(new GsCollectionResort(repository));
+	public void gsCollections(){
+		assertImpl(new GsCollectionsResort(repository));
 	}
 	
 	private void assertImpl(ResortService service) {

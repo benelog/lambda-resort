@@ -8,10 +8,10 @@ import com.gs.collections.impl.list.mutable.FastList;
 import com.naver.helloworld.resort.domain.Guest;
 import com.naver.helloworld.resort.repository.GuestRepository;
 
-public class GsCollectionResort implements ResortService {
+public class GsCollectionsResort implements ResortService {
 	private GuestRepository repository;
 
-	public GsCollectionResort(GuestRepository repository) {
+	public GsCollectionsResort(GuestRepository repository) {
 		this.repository = repository;
 	}
 
