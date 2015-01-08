@@ -25,7 +25,7 @@ public class JavaResortTest  {
 	}
 
 	@Test
-	public void bolt(){
+	public void bolts(){
 		assertImpl(new BoltsResort(repository));
 	}	
 
@@ -57,6 +57,11 @@ public class JavaResortTest  {
 	@Test
 	public void gsCollections(){
 		assertImpl(new GsCollectionsResort(repository));
+	}
+
+	@Test
+	public void commonsCollections(){
+		assertImpl(new CommonsCollectionsResort(repository));
 	}
 	
 	private void assertImpl(ResortService service) {

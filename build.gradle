@@ -50,6 +50,7 @@ dependencies {
 	compile 'org.op4j:op4j:1.2'
 	compile 'org.functionaljava:functionaljava:4.1'
 	compile 'com.googlecode.totallylazy:totallylazy:1049'
+	compile 'org.apache.commons:commons-collections4:4.0'
 	compile 'com.goldmansachs:gs-collections:5.1.0'
 	compile 'org.codehaus.groovy:groovy-all:2.3.6'
 	compile 'org.scala-lang:scala-library:2.11.1'
