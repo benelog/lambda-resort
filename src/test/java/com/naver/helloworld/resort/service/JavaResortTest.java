@@ -64,6 +64,11 @@ public class JavaResortTest  {
 		assertImpl(new CommonsCollectionsResort(repository));
 	}
 	
+	@Test
+	public void jedi(){
+		assertImpl(new JediResort(repository));
+	}
+	
 	private void assertImpl(ResortService service) {
 		repository.save(
 			new Guest(1, "jsh", "naver", 15),
