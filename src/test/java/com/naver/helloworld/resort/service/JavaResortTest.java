@@ -26,7 +26,7 @@ public class JavaResortTest  {
 
 	@Test
 	public void bolt(){
-		assertImpl(new BoltResort(repository));
+		assertImpl(new BoltsResort(repository));
 	}	
 
 	@Test
