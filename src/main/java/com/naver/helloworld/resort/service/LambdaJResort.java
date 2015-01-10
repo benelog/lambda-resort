@@ -5,7 +5,7 @@ import static org.hamcrest.Matchers.*;
 
 import java.util.List;
 
-import ch.lambdaj.function.convert.PropertyExtractor;
+import ch.lambdaj.collection.LambdaCollections;
 
 import com.naver.helloworld.resort.domain.Guest;
 import com.naver.helloworld.resort.repository.GuestRepository;
@@ -18,8 +18,11 @@ public class LambdaJResort implements ResortService {
 
 	public List<String> findGuestNamesOfCompany(final String company) {
 		List<Guest> all = repository.findAll();
-		List<Guest> filtered = filter(having(on(Guest.class).getCompany(), equalTo(company)), all);
-		List<Guest> sorted = sort(filtered, on(Guest.class).getGrade());
-		return convert(sorted, new PropertyExtractor<Guest, String>("name"));
+		return LambdaCollections.with(all)
+			.retain(having(on(Guest.class).getCompany(), equalTo(company)))
+			.sort(on(Guest.class).getGrade())
+			.extract(on(Guest.class).getName());
+			// last line has a same effect with 
+			//'.convert(new PropertyExtractor<Guest, String>("name"));'
 	}
 }
