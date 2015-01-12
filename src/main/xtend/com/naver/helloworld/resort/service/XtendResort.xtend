@@ -13,12 +13,10 @@ class XtendResort implements ResortService {
 		all.filter [company == aCompany]
 			.sortBy[grade]
 			.map[name]
-			.toList
 		/*
 		all.filter [g | g.company == company ]
-    			.sortBy[g | g.grade]
-    			.map[g | g.name]
-    			.toList
+			.sortBy[g | g.grade]
+			.map[g | g.name]
  		*/
 	}
 }
