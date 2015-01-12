@@ -22,7 +22,19 @@ public class LambdaJResort implements ResortService {
 			.retain(having(on(Guest.class).getCompany(), equalTo(company)))
 			.sort(on(Guest.class).getGrade())
 			.extract(on(Guest.class).getName());
-			// last line has a same effect with 
-			//'.convert(new PropertyExtractor<Guest, String>("name"));'
+			/*
+			 last line has a same effect with
+ 
+			1)
+			.convert(new Converter<Guest, String>() {
+				@Override
+				public String convert(Guest g) {
+					g.getName();
+				}
+			})
+
+			2)
+			convert(new PropertyExtractor<Guest, String>("name"));
+			*/
 	}
 }
