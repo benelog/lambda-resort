@@ -17,7 +17,15 @@ public class ModernJavaResort implements ResortService {
 		return guests.stream()
 			.filter(g -> company.equals(g.getCompany()))
 			.sorted(Comparator.comparing(Guest::getGrade))
+			.map(Guest::getName)
+			.collect(Collectors.toList());
+
+		/*
+		return guests.stream()
+			.filter(g -> company.equals(g.getCompany()))
+			.sorted(Comparator.comparing(g -> g.getGrade())
 			.map(g -> g.getName())
 			.collect(Collectors.toList());
+		 */
 	}
 }
