@@ -4,15 +4,16 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.naver.helloworld.resort.domain.Guest;
 import com.naver.helloworld.resort.repository.GuestRepository;
 
-public class ModernJavaBreak2Service implements ResortService {
+public class ModernJavaBreak2Resort implements ResortService {
 	private GuestRepository repository;
-	public ModernJavaBreak2Service(GuestRepository repository) {
+	public ModernJavaBreak2Resort(GuestRepository repository) {
 		this.repository = repository;
 	}
 
@@ -30,8 +31,9 @@ public class ModernJavaBreak2Service implements ResortService {
 		Stream<Guest> sorted = filtered.sorted(sortFunc);
 
 		// mapping
-		Function<Guest, String> mapFunc = g -> g.getName();
+		Function<Guest, String> mapFunc = Guest::getName;
 		Stream<String> mapped = sorted.map(mapFunc);
-		return mapped.collect(Collectors.toList());
+		Collector<String, ?, List<String>> collector = Collectors.toList();
+		return mapped.collect(collector);
 	}
 }

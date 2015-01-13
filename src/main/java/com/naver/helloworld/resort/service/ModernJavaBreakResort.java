@@ -8,9 +8,9 @@ import java.util.stream.Stream;
 import com.naver.helloworld.resort.domain.Guest;
 import com.naver.helloworld.resort.repository.GuestRepository;
 
-public class ModernJavaBreakService implements ResortService {
+public class ModernJavaBreakResort implements ResortService {
 	private GuestRepository repository;
-	public ModernJavaBreakService(GuestRepository repository) {
+	public ModernJavaBreakResort(GuestRepository repository) {
 		this.repository = repository;
 	}
 
@@ -22,7 +22,7 @@ public class ModernJavaBreakService implements ResortService {
 		// sort
 		Stream<Guest> sorted = filtered.sorted(Comparator.comparing(Guest::getGrade));
 		// map
-		Stream<String> mapped = sorted.map( g -> g.getName());
+		Stream<String> mapped = sorted.map(Guest::getName);
 		return mapped.collect(Collectors.toList());
 	}
 }
