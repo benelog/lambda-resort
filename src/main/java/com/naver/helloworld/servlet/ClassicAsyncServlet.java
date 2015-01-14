@@ -15,9 +15,10 @@ public class ClassicAsyncServlet extends HttpServlet {
 	public void doGet(final HttpServletRequest request,	HttpServletResponse response) throws ServletException, IOException {
 		final AsyncContext asyncContext = request.startAsync();
 		asyncContext.start(new Runnable(){
-            public void run(){
-                asyncContext.dispatch("/threadNames.jsp");
-            }
-        });
+			public void run(){
+				// do some work
+				asyncContext.dispatch("/threadNames.jsp");
+			}
+		});
 	}
 }
