@@ -15,7 +15,7 @@ public class ModernAsyncServlet extends HttpServlet {
 	@Override
 	public void doGet(final HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		final AsyncContext asyncContext = request.startAsync();
+		AsyncContext asyncContext = request.startAsync();
 		asyncContext.start(() -> {
 			// 오래 걸리는 작업
 			asyncContext.dispatch("/threadNames.jsp");
