@@ -1,4 +1,4 @@
-package com.naver.helloworld.servlet;
+package com.naver.helloworld.web;
 
 import java.io.IOException;
 import javax.servlet.AsyncContext;

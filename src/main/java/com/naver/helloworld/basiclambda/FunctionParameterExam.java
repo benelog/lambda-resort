@@ -1,4 +1,4 @@
-package com.naver.helloworld.resort;
+package com.naver.helloworld.basiclambda;
 
 import java.util.function.IntUnaryOperator;
 

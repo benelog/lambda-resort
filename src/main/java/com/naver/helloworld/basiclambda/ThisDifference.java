@@ -1,4 +1,4 @@
-package com.naver.helloworld.resort;
+package com.naver.helloworld.basiclambda;
 
 public class ThisDifference {
 	public static void main(String[] args) {
