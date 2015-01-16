@@ -21,7 +21,7 @@ public class JinqResort implements ResortService {
 	public List<String> findGuestNamesOfCompany(String company) {
 		return guests()
 			.where(g -> g.getCompany().equals(company))
-			.sortedByIntAscending(Guest::getGrade)
+			.sortedBy(Guest::getGrade)
 			.select(Guest::getName)
 			.toList();
 	}
