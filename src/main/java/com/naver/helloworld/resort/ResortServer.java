@@ -17,7 +17,7 @@ public class ResortServer {
 	private ResortService service;
 
 	public void start() {
-		get("/guest/company/:company", (request, response) -> {
+		get("/guests/:company", (request, response) -> {
 			String company = request.params(":company");
 			List<String> names = service.findGuestNamesByCompany(company);
 			return "Guests from " + company + " : " + names;
