@@ -16,7 +16,7 @@ public class ClassicAsyncServlet extends HttpServlet {
 		final AsyncContext asyncContext = request.startAsync();
 		asyncContext.start(new Runnable(){
 			public void run(){
-				// do some work
+				// do long running job
 				asyncContext.dispatch("/threadNames.jsp");
 			}
 		});

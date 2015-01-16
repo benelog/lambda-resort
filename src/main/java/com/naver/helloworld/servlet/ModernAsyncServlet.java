@@ -17,7 +17,7 @@ public class ModernAsyncServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		AsyncContext asyncContext = request.startAsync();
 		asyncContext.start(() -> {
-			// do some work
+			// do long running job
 			asyncContext.dispatch("/threadNames.jsp");
 		});
 	}
