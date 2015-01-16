@@ -3,7 +3,6 @@ package com.naver.helloworld.resort;
 public class ThisDifference {
 	public static void main(String[] args) {
 		new ThisDifference().print();
-		
 	}
 	public void print() {
 		Runnable anonClass = new Runnable(){

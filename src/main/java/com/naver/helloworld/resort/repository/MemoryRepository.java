@@ -18,4 +18,9 @@ public class MemoryRepository implements GuestRepository {
 	public List<Guest> findAll() {
 		return new ArrayList<Guest>(savedGuest);
 	}
+
+	@Override
+	public void deleteAll() {
+		savedGuest.clear();
+	}
 }

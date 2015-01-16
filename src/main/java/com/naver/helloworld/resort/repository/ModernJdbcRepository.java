@@ -17,6 +17,8 @@ public class ModernJdbcRepository implements GuestRepository {
 	}
 	
 	private static final String SELECT_ALL = "SELECT name, grade, company FROM guest";
+	private static final String DELETE_ALL = "DELETE FROM guest";
+	
 	@Override
 	public void save(Guest... guests) {
 		SimpleJdbcInsert insertStmt = new SimpleJdbcInsert(jdbc).withTableName("guest");
@@ -34,5 +36,10 @@ public class ModernJdbcRepository implements GuestRepository {
 					rs.getInt("grade")
 			)
 		);
+	}
+	
+	@Override
+	public void deleteAll() {
+		jdbc.update(DELETE_ALL);
 	}
 }
