@@ -71,12 +71,12 @@ public class JavaResortTest  {
 	
 	private void assertImpl(ResortService service) {
 		repository.save(
-			new Guest(1, "jsh", "naver", 15),
-			new Guest(2, "hny", "daum", 10),
-			new Guest(3, "chy", "naver", 5)
+			new Guest(1, "jsh", "Naver", 15),
+			new Guest(2, "hny", "Line", 10),
+			new Guest(3, "chy", "Naver", 5)
 		);
 		
-		List<String> names = service.findGuestNamesByCompany("naver");
+		List<String> names = service.findGuestNamesByCompany("Naver");
 		assertThat(names).isEqualTo(Arrays.asList("chy","jsh"));
 	}
 }

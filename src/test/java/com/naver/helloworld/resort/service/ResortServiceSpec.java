@@ -20,16 +20,16 @@ public class ResortServiceSpec {{
 	describe("ResortService with modern Java", it -> {
 		it.isSetupWith(() -> {
 			repository.save(
-					new Guest(1, "jsh", "naver", 15),
-					new Guest(2, "hny", "daum", 10),
-					new Guest(3, "chy", "naver", 5)
+					new Guest(1, "jsh", "Naver", 15),
+					new Guest(2, "hny", "Line", 10),
+					new Guest(3, "chy", "Naver", 5)
 				);
 		
 		});
 		it.isConcludedWith(repository::deleteAll);
 		
 		it.should("find names of guests by company ", expect -> {
-			List<String> names = service.findGuestNamesByCompany("naver");			
+			List<String> names = service.findGuestNamesByCompany("Naver");			
 			expect.that(names).isEqualTo(Arrays.asList("chy","jsh"));
 		});
 	});
