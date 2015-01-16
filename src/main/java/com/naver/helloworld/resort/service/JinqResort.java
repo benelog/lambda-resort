@@ -13,20 +13,20 @@ import com.naver.helloworld.resort.domain.Guest;
 
 @Repository
 public class JinqResort implements ResortService {
-	private EntityManager em;
 	@Autowired
 	public JinqResort(EntityManager em) {
 		this.em = em;
 	}
+	private EntityManager em;
 	public List<String> findGuestNamesByCompany(String company) {
-		return guests()
+		return stream(Guest.class)
 			.where(g -> g.getCompany().equals(company))
 			.sortedBy(Guest::getGrade)
 			.select(Guest::getName)
 			.toList();
 	}
 
-	private JinqStream<Guest> guests() {
-		return new JinqJPAStreamProvider(em.getEntityManagerFactory()).streamAll(em, Guest.class);
+	private <T> JinqStream<T> stream(Class<T> clazz) {
+		return new JinqJPAStreamProvider(em.getEntityManagerFactory()).streamAll(em, clazz);
 	}
 }
