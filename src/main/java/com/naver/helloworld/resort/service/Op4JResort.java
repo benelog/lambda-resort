@@ -15,7 +15,7 @@ public class Op4JResort implements ResortService {
 		this.repository = repository;
 	}
 
-	public List<String> findGuestNamesOfCompany(final String company) {
+	public List<String> findGuestNamesByCompany(final String company) {
 		List<Guest> all = repository.findAll();
 		return Op.on(all)
 			.removeAllFalse(new IFunction<Guest, Boolean>() {

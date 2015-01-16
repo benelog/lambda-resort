@@ -11,7 +11,7 @@ class GroovyResort implements ResortService {
 	}
 
 	@Override
-	List<String> findGuestNamesOfCompany(String company) {
+	List<String> findGuestNamesByCompany(String company) {
 		List<Guest> all = repository.findAll()
 		all	.findAll { it.company == company }
 			.sort { it.grade }

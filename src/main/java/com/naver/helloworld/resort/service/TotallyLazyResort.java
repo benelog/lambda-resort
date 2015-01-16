@@ -15,7 +15,7 @@ public class TotallyLazyResort implements ResortService {
 	}
 
 	@Override
-	public List<String> findGuestNamesOfCompany(final String company) {
+	public List<String> findGuestNamesByCompany(final String company) {
 		List<Guest> all = repository.findAll();
 		return Sequences.sequence(all)
 			.filter(new Predicate<Guest>() {

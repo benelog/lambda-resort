@@ -12,7 +12,7 @@ public class ModernJavaResort implements ResortService {
 		this.repository = repository;
 	}
 
-	public List<String> findGuestNamesOfCompany(String company) {
+	public List<String> findGuestNamesByCompany(String company) {
 		List<Guest> guests = repository.findAll();
 		return guests.stream()
 			.filter(g -> company.equals(g.getCompany()))

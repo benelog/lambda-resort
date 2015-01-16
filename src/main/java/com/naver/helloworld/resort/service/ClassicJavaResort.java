@@ -14,7 +14,7 @@ public class ClassicJavaResort implements ResortService {
 		this.repository = repository;
 	}
 
-	public List<String> findGuestNamesOfCompany(String company) {
+	public List<String> findGuestNamesByCompany(String company) {
 		List<Guest> all = repository.findAll();
 
 		List<Guest> filtered = filter(all, company);

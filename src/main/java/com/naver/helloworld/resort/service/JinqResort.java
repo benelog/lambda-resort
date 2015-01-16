@@ -18,7 +18,7 @@ public class JinqResort implements ResortService {
 	public JinqResort(EntityManager em) {
 		this.em = em;
 	}
-	public List<String> findGuestNamesOfCompany(String company) {
+	public List<String> findGuestNamesByCompany(String company) {
 		return guests()
 			.where(g -> g.getCompany().equals(company))
 			.sortedBy(Guest::getGrade)

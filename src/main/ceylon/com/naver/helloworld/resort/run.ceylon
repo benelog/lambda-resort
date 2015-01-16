@@ -18,6 +18,6 @@ shared void run() {
 		Guest(3, "chy", "naver", 5)
 	);
 	value service = CeylonResort(repository);
-	value names = service.findGuestNamesOfCompany("naver");
+	value names = service.findGuestNamesByCompany("naver");
 	print(names);
 }

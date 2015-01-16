@@ -12,13 +12,16 @@ import com.naver.helloworld.resort.domain.Guest;
 
 class GroovyRepository implements GuestRepository {
 
+	private static final String SELECT_ALL = "SELECT name, grade, company FROM guest";
+	private static final String DELETE_ALL = "DELETE FROM guest";
+
 	private JdbcTemplate jdbc;
 	
 	GroovyRepository(DataSource dataSource) {
 		this.jdbc = new JdbcTemplate(dataSource);
 	}
 	@Override
-	public void save(Guest... guests) {
+	void save(Guest... guests) {
 		SimpleJdbcInsert insertStmt = new SimpleJdbcInsert(jdbc).withTableName("guest")
 		for ( Guest guest: guests) {
 			BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(guest);
@@ -27,7 +30,7 @@ class GroovyRepository implements GuestRepository {
 	}
 
 	@Override
-	public List<Guest> findAll() {
+	List<Guest> findAll() {
 		jdbc.query(SELECT_ALL, { rs, rowNum -> 
 				new Guest (
 					rs.getInt("id"),
@@ -37,5 +40,9 @@ class GroovyRepository implements GuestRepository {
 				)
 			}
 		)
+	}
+	
+	void deleteAll() {
+		jdbc.update(DELETE_ALL);
 	}
 }

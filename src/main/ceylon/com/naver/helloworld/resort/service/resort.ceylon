@@ -5,7 +5,7 @@ import java.util {JList = List, JArrayList = ArrayList }
 import java.lang {JString = String}
 
 shared class CeylonResort (GuestRepository repository)	satisfies ResortService {
-	shared actual JList<JString> findGuestNamesOfCompany(String company) {
+	shared actual JList<JString> findGuestNamesByCompany(String company) {
 		value all = repository.findAll() ;
 		value names = CeylonIterable(all)
 			.filter((Guest g) => g.company == company)

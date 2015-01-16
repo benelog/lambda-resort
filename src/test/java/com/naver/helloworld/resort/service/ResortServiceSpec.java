@@ -29,7 +29,7 @@ public class ResortServiceSpec {{
 		it.isConcludedWith(repository::deleteAll);
 		
 		it.should("find names of guests by company ", expect -> {
-			List<String> names = service.findGuestNamesOfCompany("naver");			
+			List<String> names = service.findGuestNamesByCompany("naver");			
 			expect.that(names).isEqualTo(Arrays.asList("chy","jsh"));
 		});
 	});

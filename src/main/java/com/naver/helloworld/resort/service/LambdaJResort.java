@@ -16,7 +16,7 @@ public class LambdaJResort implements ResortService {
 		this.repository = repository;
 	}
 
-	public List<String> findGuestNamesOfCompany(final String company) {
+	public List<String> findGuestNamesByCompany(final String company) {
 		List<Guest> all = repository.findAll();
 		return LambdaCollections.with(all)
 			.retain(having(on(Guest.class).getCompany(), equalTo(company)))

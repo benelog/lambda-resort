@@ -17,7 +17,7 @@ public class GsCollectionsResort implements ResortService {
 
 	@SuppressWarnings("serial")
 	@Override
-	public List<String> findGuestNamesOfCompany(final String company) {
+	public List<String> findGuestNamesByCompany(final String company) {
 		List<Guest> all = repository.findAll();
 		return FastList.newList(all)
 			.select(new Predicate<Guest>() {

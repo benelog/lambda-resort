@@ -23,7 +23,7 @@ public class CommonsCollectionsResort implements ResortService {
 	}
 
 	@Override
-	public List<String> findGuestNamesOfCompany(final String company) {
+	public List<String> findGuestNamesByCompany(final String company) {
 		List<Guest> all = repository.findAll();
 		List<Guest> filtered = ListUtils.select(all, new Predicate<Guest>() {
 			public boolean evaluate(Guest g) {

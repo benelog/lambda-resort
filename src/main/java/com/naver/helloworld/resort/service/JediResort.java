@@ -19,7 +19,7 @@ public class JediResort implements ResortService {
 	}
 
 	@Override
-	public List<String> findGuestNamesOfCompany(final String company) {
+	public List<String> findGuestNamesByCompany(final String company) {
 		List<Guest> all = repository.findAll();
 		List<Guest> filtered = FunctionalPrimitives.select(all, new Filter<Guest>() {
 			public Boolean execute(Guest g) {

@@ -15,7 +15,7 @@ public class JinqResortRun {
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context = SpringApplication.run(JinqResortRun.class);
 		ResortService service = context.getBean(JinqResort.class);
-		List<String> names = service.findGuestNamesOfCompany("naver");
+		List<String> names = service.findGuestNamesByCompany("naver");
 		System.out.println(names);
 		context.close();
 	}

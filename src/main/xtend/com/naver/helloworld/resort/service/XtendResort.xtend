@@ -7,7 +7,7 @@ class XtendResort implements ResortService {
 	new (GuestRepository repository) {
 		this.repository = repository;
 	}
-	override findGuestNamesOfCompany(String aCompany) {
+	override findGuestNamesByCompany(String aCompany) {
 		val all = repository.findAll()
 		
 		all.filter [company == aCompany]

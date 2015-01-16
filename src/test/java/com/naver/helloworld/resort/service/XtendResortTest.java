@@ -26,7 +26,7 @@ public class XtendResortTest  {
 			new Guest(3, "chy", "naver", 5)
 		);
 		
-		List<String> names = service.findGuestNamesOfCompany("naver");
+		List<String> names = service.findGuestNamesByCompany("naver");
 		assertThat(names).isEqualTo(Arrays.asList("chy","jsh"));
 	}
 }

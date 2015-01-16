@@ -15,7 +15,7 @@ public class BoltsResort implements ResortService {
 		this.repository = repository;
 	}
 
-	public List<String> findGuestNamesOfCompany(final String company) {
+	public List<String> findGuestNamesByCompany(final String company) {
 		List<Guest> all = repository.findAll();
 		return Cf.list(all)
 			.filter(new Function1B<Guest>() {

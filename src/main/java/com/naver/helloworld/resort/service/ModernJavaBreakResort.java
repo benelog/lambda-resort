@@ -14,7 +14,7 @@ public class ModernJavaBreakResort implements ResortService {
 		this.repository = repository;
 	}
 
-	public List<String> findGuestNamesOfCompany(String company) {
+	public List<String> findGuestNamesByCompany(String company) {
 		List<Guest> all = repository.findAll();
 		Stream<Guest> stream = all.stream();
 		// filter
