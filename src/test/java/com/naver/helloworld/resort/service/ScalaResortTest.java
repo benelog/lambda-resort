@@ -17,7 +17,12 @@ public class ScalaResortTest  {
 	public void scala(){
 		assertImpl(new ScalaResort(repository));
 	}
-	
+
+    @Test
+    public void scalaWithUnderscore(){
+        assertImpl(new ScalaAdvancedResort(repository));
+    }
+
 	private void assertImpl(ResortService service) {
 		repository.save(
 			new Guest(1, "jsh", "Naver", 15),
