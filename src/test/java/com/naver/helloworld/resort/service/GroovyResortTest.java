@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.List;
+
 import org.junit.Test;
 
 import com.naver.helloworld.resort.domain.Guest;
@@ -16,6 +17,11 @@ public class GroovyResortTest  {
 	@Test
 	public void groovy(){
 		assertImpl(new GroovyResort(repository));
+	}
+	
+	@Test
+	public void groovyUsingIt(){
+		assertImpl(new GroovyAdvancedResort(repository));
 	}
 	
 	private void assertImpl(ResortService service) {
