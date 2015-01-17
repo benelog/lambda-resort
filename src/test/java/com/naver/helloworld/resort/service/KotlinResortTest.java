@@ -17,6 +17,11 @@ public class KotlinResortTest  {
 	public void kotlin(){
 		assertImpl(new KotlinResort(repository));
 	}
+
+	@Test
+	public void kotlinWithIt(){
+		assertImpl(new KotlinAdvancedResort(repository));
+	}
 	
 	private void assertImpl(ResortService service) {
 		repository.save(

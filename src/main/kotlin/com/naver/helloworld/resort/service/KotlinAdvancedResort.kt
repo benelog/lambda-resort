@@ -5,11 +5,11 @@ import java.util.Comparator
 import com.naver.helloworld.resort.domain.Guest
 import java.util.stream.Collectors
 
-public class KotlinResort (private val repository: GuestRepository) : ResortService {
+public class KotlinAdvancedResort (private val repository: GuestRepository) : ResortService {
 	override fun findGuestNamesByCompany(company: String): List<String> {
 		val all = repository.findAll()
-		return all.filter { g -> g.getCompany() == company }
-				.sortBy { g -> g.getGrade() }
-				.map { g -> g.getName() }
+		return all.filter { it.getCompany() == company }
+				.sortBy { it.getGrade() }
+				.map { it.getName() }
     }
 }
