@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 
 import com.naver.helloworld.resort.domain.Guest;
 import com.naver.helloworld.resort.repository.GuestRepository;
-public class ModernJavaResort implements ResortService {
+public class ModernJavaAdvancedResort implements ResortService {
 	private GuestRepository repository;
-	public ModernJavaResort(GuestRepository repository) {
+	public ModernJavaAdvancedResort(GuestRepository repository) {
 		this.repository = repository;
 	}
 
@@ -16,8 +16,8 @@ public class ModernJavaResort implements ResortService {
 		List<Guest> guests = repository.findAll();
 		return guests.stream()
 			.filter(g -> company.equals(g.getCompany()))
-			.sorted(Comparator.comparing(g -> g.getGrade()))
-			.map(g -> g.getName())
+			.sorted(Comparator.comparing(Guest::getGrade))
+			.map(Guest::getName)
 			.collect(Collectors.toList());
 	}
 }

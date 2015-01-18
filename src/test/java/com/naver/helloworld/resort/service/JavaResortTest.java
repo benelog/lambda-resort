@@ -25,6 +25,11 @@ public class JavaResortTest  {
 	}
 
 	@Test
+	public void modernJavaWithMethodReference(){
+		assertImpl(new ModernJavaAdvancedResort(repository));
+	}
+
+	@Test
 	public void bolts(){
 		assertImpl(new BoltsResort(repository));
 	}	
