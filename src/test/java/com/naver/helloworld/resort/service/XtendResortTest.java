@@ -18,6 +18,10 @@ public class XtendResortTest  {
 		assertImpl(new XtendResort(repository));
 	}
 	
+	@Test
+	public void xtendWhiout(){
+		assertImpl(new XtendAdvancedResort(repository));
+	}
 	
 	private void assertImpl(ResortService service) {
 		repository.save(

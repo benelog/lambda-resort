@@ -2,15 +2,16 @@ package com.naver.helloworld.resort.service
 
 import com.naver.helloworld.resort.repository.GuestRepository
 
-class XtendResort implements ResortService {
+class XtendAdvancedResort implements ResortService {
 	GuestRepository repository
 	new (GuestRepository repository) {
 		this.repository = repository
 	}
-	override findGuestNamesByCompany(String company) {
+	override findGuestNamesByCompany(String aCompany) {
 		val all = repository.findAll()
-		all.filter [g | g.company == company ]
-			.sortBy[g | g.grade]
-			.map[g | g.name]
+		
+		all.filter [company == aCompany]
+			.sortBy[grade]
+			.map[name]
 	}
 }
