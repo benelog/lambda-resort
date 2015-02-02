@@ -14,8 +14,8 @@ public class ThisDifference {
 		
 		anonClass.run();
 		
-		Runnable labmda= () -> verifyRunnable(this);
-		labmda.run();
+		Runnable lambda = () -> verifyRunnable(this);
+		lambda.run();
 	}
 	
 	private void verifyRunnable(Object obj) {
