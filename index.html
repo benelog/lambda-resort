@@ -1,0 +1,679 @@
+<!doctype html>
+<!-- The Time Machine GitHub pages theme was designed and developed by Jon Rohan, on Feb 7, 2012. -->
+<!-- Follow him for fun. http://twitter.com/jonrohan. Tail his code on https://github.com/jonrohan -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <link rel="stylesheet" href="stylesheets/stylesheet.css" media="screen">
+  <link rel="stylesheet" href="stylesheets/github-dark.css">
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="javascripts/script.js"></script>
+
+  <title>Lambda-resort</title>
+  <meta name="description" content="examples of filtering, sorting, mapping by Java, Groovy, Scala, Kotlin, Xtend, Ceylon">
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <header>
+      <h1 class="title">Lambda-resort</h1>
+    </header>
+    <div id="container">
+      <p class="tagline">examples of filtering, sorting, mapping by Java, Groovy, Scala, Kotlin, Xtend, Ceylon</p>
+      <div id="main" role="main">
+        <div class="download-bar">
+        <div class="inner">
+          <a href="https://github.com/benelog/lambda-resort/tarball/master" class="download-button tar"><span>Download</span></a>
+          <a href="https://github.com/benelog/lambda-resort/zipball/master" class="download-button zip"><span>Download</span></a>
+          <a href="https://github.com/benelog/lambda-resort" class="code">View Lambda-resort on GitHub</a>
+        </div>
+        <span class="blc"></span><span class="trc"></span>
+        </div>
+        <article class="markdown-body">
+          <h1>
+<a id="filtering-sorting-mapping" class="anchor" href="#filtering-sorting-mapping" aria-hidden="true"><span class="octicon octicon-link"></span></a>Filtering, sorting, mapping</h1>
+
+<h3>
+<a id="backgrounds" class="anchor" href="#backgrounds" aria-hidden="true"><span class="octicon octicon-link"></span></a>Backgrounds</h3>
+
+<p><a href="src/main/java/com/naver/helloworld/resort/domain/Guest.java">Guest.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">Guest</span> {
+    <span class="pl-k">private</span> <span class="pl-k">final</span> <span class="pl-k">int</span> grade;
+    <span class="pl-k">private</span> <span class="pl-k">final</span> <span class="pl-smi">String</span> name;
+    <span class="pl-k">private</span> <span class="pl-k">final</span> <span class="pl-smi">String</span> company;
+<span class="pl-c1">...</span>
+}</pre></div>
+
+<p><a href="src/main/java/com/naver/helloworld/resort/repository/GuestRepository.java">GuestRepository.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">import</span> <span class="pl-smi">java.util.List</span>;
+
+<span class="pl-k">public</span> <span class="pl-k">interface</span> <span class="pl-en">GuestRepository</span> {
+    <span class="pl-k">public</span> <span class="pl-k">List&lt;<span class="pl-smi">Guest</span>&gt;</span> <span class="pl-en">findAllGuest</span> ();
+}</pre></div>
+
+<p><a href="src/main/java/com/naver/helloworld/resort/service/ResortService.java">ResortService.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">interface</span> <span class="pl-en">ResortService</span> {
+    <span class="pl-k">public</span> <span class="pl-k">List&lt;<span class="pl-smi">String</span>&gt;</span> <span class="pl-en">findGuestNamesByCompany</span> (<span class="pl-smi">String</span> <span class="pl-v">company</span>);
+}</pre></div>
+
+<h2>
+<a id="implementations-by-classic-java" class="anchor" href="#implementations-by-classic-java" aria-hidden="true"><span class="octicon octicon-link"></span></a>Implementations by classic Java</h2>
+
+<h3>
+<a id="jdk-collections-framework" class="anchor" href="#jdk-collections-framework" aria-hidden="true"><span class="octicon octicon-link"></span></a>JDK Collections framework</h3>
+
+<p><a href="src/main/java/com/naver/helloworld/resort/service/ClassicJavaResort.java">ClassicJavaResort.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">List&lt;<span class="pl-smi">String</span>&gt;</span> findGuestNamesbyCompany(<span class="pl-smi">String</span> company) {
+    <span class="pl-k">List&lt;<span class="pl-smi">Guest</span>&gt;</span> all <span class="pl-k">=</span> repository<span class="pl-k">.</span>findAllGuest();
+
+    <span class="pl-k">List&lt;<span class="pl-smi">Guest</span>&gt;</span> filtered <span class="pl-k">=</span> filter(guests, company);
+    sort(filtered);
+    <span class="pl-k">return</span> mapNames(filtered);
+}
+
+<span class="pl-k">private</span> <span class="pl-k">List&lt;<span class="pl-smi">Guest</span>&gt;</span> filter(<span class="pl-k">List&lt;<span class="pl-smi">Guest</span>&gt;</span> guests, <span class="pl-smi">String</span> company) {
+    <span class="pl-k">List&lt;<span class="pl-smi">Guest</span>&gt;</span> filtered <span class="pl-k">=</span> <span class="pl-k">new</span>  <span class="pl-k">ArrayList&lt;&gt;</span>();
+    <span class="pl-k">for</span>(<span class="pl-smi">Guest</span> guest <span class="pl-k">:</span> guests ) {
+        <span class="pl-k">if</span> (company<span class="pl-k">.</span>equals(guest<span class="pl-k">.</span>getCompany())) {
+            filtered<span class="pl-k">.</span>add(guest);
+        }
+    }
+    <span class="pl-k">return</span> filtered;
+}
+
+<span class="pl-k">private</span> <span class="pl-k">void</span> sort(<span class="pl-k">List&lt;<span class="pl-smi">Guest</span>&gt;</span> guests) {
+    <span class="pl-smi">Collections</span><span class="pl-k">.</span>sort(guests, <span class="pl-k">new</span> <span class="pl-k">Comparator&lt;<span class="pl-smi">Guest</span>&gt;</span>() {
+        <span class="pl-k">public</span> <span class="pl-k">int</span> <span class="pl-en">compare</span>(<span class="pl-smi">Guest</span> <span class="pl-v">o1</span>, <span class="pl-smi">Guest</span> <span class="pl-v">o2</span>) {
+            <span class="pl-k">return</span> <span class="pl-smi">Integer</span><span class="pl-k">.</span>compare(o1<span class="pl-k">.</span>getGrade(), o2<span class="pl-k">.</span>getGrade());
+        }
+    });
+}
+
+<span class="pl-k">private</span> <span class="pl-k">List&lt;<span class="pl-smi">String</span>&gt;</span> mapNames(<span class="pl-k">List&lt;<span class="pl-smi">Guest</span>&gt;</span> guests) {
+    <span class="pl-k">List&lt;<span class="pl-smi">String</span>&gt;</span> names <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-k">ArrayList&lt;&gt;</span>();
+    <span class="pl-k">for</span>(<span class="pl-smi">Guest</span> guest <span class="pl-k">:</span> guests ) {
+        names<span class="pl-k">.</span>add(guest<span class="pl-k">.</span>getName());
+    }
+    <span class="pl-k">return</span> names;
+}</pre></div>
+
+<h3>
+<a id="guava" class="anchor" href="#guava" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/google/guava">Guava</a>
+</h3>
+
+<p><a href="src/main/java/com/naver/helloworld/resort/service/GuavaResort.java">GuavaResort.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">List&lt;<span class="pl-smi">String</span>&gt;</span> findGuestNamesByCompany(<span class="pl-k">final</span> <span class="pl-smi">String</span> company) {
+    <span class="pl-k">List&lt;<span class="pl-smi">Guest</span>&gt;</span> all <span class="pl-k">=</span> repository<span class="pl-k">.</span>findAll();
+
+    <span class="pl-k">List&lt;<span class="pl-smi">Guest</span>&gt;</span> sorted <span class="pl-k">=</span> <span class="pl-smi">FluentIterable</span><span class="pl-k">.</span>from(all)
+        .filter(<span class="pl-k">new</span> <span class="pl-k">Predicate&lt;<span class="pl-smi">Guest</span>&gt;</span>() {
+            <span class="pl-k">public</span> <span class="pl-k">boolean</span> <span class="pl-en">apply</span>(<span class="pl-smi">Guest</span> <span class="pl-v">g</span>) {
+                <span class="pl-k">return</span> company<span class="pl-k">.</span>equals(g<span class="pl-k">.</span>getCompany());
+            }
+    })
+    .toSortedList(<span class="pl-smi">Ordering</span><span class="pl-k">.</span>natural()<span class="pl-k">.</span>onResultOf(
+        <span class="pl-k">new</span> <span class="pl-k">Function&lt;<span class="pl-smi">Guest</span>, <span class="pl-smi">Integer</span>&gt;</span>() {
+            <span class="pl-k">public</span> <span class="pl-smi">Integer</span> <span class="pl-en">apply</span>(<span class="pl-smi">Guest</span> <span class="pl-v">g</span>) {
+                <span class="pl-k">return</span> g<span class="pl-k">.</span>getGrade();
+        }
+    }));
+
+    <span class="pl-k">return</span> <span class="pl-smi">FluentIterable</span><span class="pl-k">.</span>from(sorted)
+            .transform(<span class="pl-k">new</span> <span class="pl-k">Function&lt;<span class="pl-smi">Guest</span>, <span class="pl-smi">String</span>&gt;</span>() {
+                <span class="pl-k">public</span> <span class="pl-smi">String</span> <span class="pl-en">apply</span>(<span class="pl-smi">Guest</span> <span class="pl-v">g</span>) {
+                    <span class="pl-k">return</span> g<span class="pl-k">.</span>getName();
+                }
+            })
+            .toList();
+}</pre></div>
+
+<h3>
+<a id="totally-lazy" class="anchor" href="#totally-lazy" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="http://totallylazy.com/">Totally Lazy</a>
+</h3>
+
+<p><a href="src/main/java/com/naver/helloworld/resort/service/TotallyLazyResort.java">TotallyLazyResort.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">List&lt;<span class="pl-smi">String</span>&gt;</span> findGuestNamesByCompany(<span class="pl-k">final</span> <span class="pl-smi">String</span> company) {
+    <span class="pl-k">List&lt;<span class="pl-smi">Guest</span>&gt;</span> all <span class="pl-k">=</span> repository<span class="pl-k">.</span>findAll();
+    <span class="pl-k">return</span> <span class="pl-smi">Sequences</span><span class="pl-k">.</span>sequence(all)
+        .filter(<span class="pl-k">new</span> <span class="pl-k">Predicate&lt;<span class="pl-smi">Guest</span>&gt;</span>() {
+            <span class="pl-k">public</span> <span class="pl-k">boolean</span> <span class="pl-en">matches</span>(<span class="pl-smi">Guest</span> <span class="pl-v">g</span>) {
+                <span class="pl-k">return</span> company<span class="pl-k">.</span>equals(g<span class="pl-k">.</span>getCompany());
+            }
+        })
+        .sortBy(<span class="pl-k">new</span> <span class="pl-k">Callable1&lt;<span class="pl-smi">Guest</span>, <span class="pl-smi">Integer</span>&gt;</span>(){
+            <span class="pl-k">public</span> <span class="pl-smi">Integer</span> <span class="pl-en">call</span>(<span class="pl-smi">Guest</span> <span class="pl-v">g</span>) {
+                <span class="pl-k">return</span> g<span class="pl-k">.</span>getGrade();
+            }
+        })
+        .map(<span class="pl-k">new</span> <span class="pl-k">Callable1&lt;<span class="pl-smi">Guest</span>, <span class="pl-smi">String</span>&gt;</span>(){
+            <span class="pl-k">public</span> <span class="pl-smi">String</span> <span class="pl-en">call</span>(<span class="pl-smi">Guest</span> <span class="pl-v">g</span>) {
+                <span class="pl-k">return</span> g<span class="pl-k">.</span>getName();
+            }
+        })
+        .toList();
+}</pre></div>
+
+<h3>
+<a id="gs-collections" class="anchor" href="#gs-collections" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/goldmansachs/gs-collections">GS Collections</a>
+</h3>
+
+<p><a href="src/main/java/com/naver/helloworld/resort/service/GsCollectionsResort.java">GsCollectoinsResort.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">List&lt;<span class="pl-smi">String</span>&gt;</span> findGuestNamesByCompany(<span class="pl-k">final</span> <span class="pl-smi">String</span> company) {
+    <span class="pl-k">List&lt;<span class="pl-smi">Guest</span>&gt;</span> all <span class="pl-k">=</span> repository<span class="pl-k">.</span>findAll();
+    <span class="pl-k">return</span> <span class="pl-smi">FastList</span><span class="pl-k">.</span>newList(all)
+        .select(<span class="pl-k">new</span> <span class="pl-k">Predicate&lt;<span class="pl-smi">Guest</span>&gt;</span>() {
+            <span class="pl-k">public</span> <span class="pl-k">boolean</span> <span class="pl-en">accept</span>(<span class="pl-smi">Guest</span> <span class="pl-v">g</span>) {
+                <span class="pl-k">return</span> company<span class="pl-k">.</span>equals(g<span class="pl-k">.</span>getCompany());
+            }
+        })
+        .sortThisBy(<span class="pl-k">new</span> <span class="pl-k">Function&lt;<span class="pl-smi">Guest</span>, <span class="pl-smi">Integer</span>&gt;</span>() {
+            <span class="pl-k">public</span> <span class="pl-smi">Integer</span> <span class="pl-en">valueOf</span>(<span class="pl-smi">Guest</span> <span class="pl-v">g</span>) {
+                <span class="pl-k">return</span> g<span class="pl-k">.</span>getGrade();
+            }
+        })
+        .collect(<span class="pl-k">new</span> <span class="pl-k">Function&lt;<span class="pl-smi">Guest</span>, <span class="pl-smi">String</span>&gt;</span> () {
+            <span class="pl-k">public</span> <span class="pl-smi">String</span> <span class="pl-en">valueOf</span>(<span class="pl-smi">Guest</span> <span class="pl-v">g</span>) {
+                <span class="pl-k">return</span> g<span class="pl-k">.</span>getName();
+            }
+        });
+}</pre></div>
+
+<h3>
+<a id="bolts" class="anchor" href="#bolts" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://bitbucket.org/stepancheg/bolts/wiki/Home">Bolts</a>
+</h3>
+
+<p><a href="src/main/java/com/naver/helloworld/resort/service/BoltsResort.java">BoltsResort.java</a></p>
+
+<div class="highlight highlight-source-java"><pre>    <span class="pl-k">public</span> <span class="pl-k">List&lt;<span class="pl-smi">String</span>&gt;</span> findGuestNamesByCompany(<span class="pl-k">final</span> <span class="pl-smi">String</span> company) {
+        <span class="pl-k">List&lt;<span class="pl-smi">Guest</span>&gt;</span> all <span class="pl-k">=</span> repository<span class="pl-k">.</span>findAllGuest();
+        <span class="pl-k">return</span> <span class="pl-smi">Cf</span><span class="pl-k">.</span>list(all)
+            .filter(<span class="pl-k">new</span> <span class="pl-k">Function1B&lt;<span class="pl-smi">Guest</span>&gt;</span>() {
+                <span class="pl-k">public</span> <span class="pl-k">boolean</span> <span class="pl-en">apply</span>(<span class="pl-smi">Guest</span> <span class="pl-v">g</span>) {
+                    <span class="pl-k">return</span> company<span class="pl-k">.</span>equals(g<span class="pl-k">.</span>getCompany());
+                }
+            })
+            .sortBy(<span class="pl-k">new</span> <span class="pl-k">Function&lt;<span class="pl-smi">Guest</span>, <span class="pl-smi">Integer</span>&gt;</span>() {
+                <span class="pl-k">public</span> <span class="pl-smi">Integer</span> <span class="pl-en">apply</span>(<span class="pl-smi">Guest</span> <span class="pl-v">g</span>) {
+                    <span class="pl-k">return</span> g<span class="pl-k">.</span>getGrade();
+                }
+            })
+            .map(<span class="pl-k">new</span> <span class="pl-k">Function&lt;<span class="pl-smi">Guest</span>, <span class="pl-smi">String</span>&gt;</span>() {
+                <span class="pl-k">public</span> <span class="pl-smi">String</span> <span class="pl-en">apply</span>(<span class="pl-smi">Guest</span> <span class="pl-v">g</span>) {
+                    <span class="pl-k">return</span> g<span class="pl-k">.</span>getName();
+                }
+            });
+    }</pre></div>
+
+<h3>
+<a id="op4j" class="anchor" href="#op4j" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="www.op4j.org">Op4j</a>
+</h3>
+
+<p><a href="src/main/java/com/naver/helloworld/resort/service/Op4JResort.java">Op4JResort.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">List&lt;<span class="pl-smi">String</span>&gt;</span> findGuestNamesByCompany(<span class="pl-k">final</span> <span class="pl-smi">String</span> company) {
+    <span class="pl-k">List&lt;<span class="pl-smi">Guest</span>&gt;</span> all <span class="pl-k">=</span> repository<span class="pl-k">.</span>findAllGuest();
+    <span class="pl-k">return</span> <span class="pl-smi">Op</span><span class="pl-k">.</span>on(all)
+        .removeAllFalse(<span class="pl-k">new</span> <span class="pl-k">IFunction&lt;<span class="pl-smi">Guest</span>, <span class="pl-smi">Boolean</span>&gt;</span>() {
+            <span class="pl-k">public</span> <span class="pl-smi">Boolean</span> <span class="pl-en">execute</span>(<span class="pl-smi">Guest</span> <span class="pl-v">g</span>, <span class="pl-smi">ExecCtx</span> <span class="pl-v">ctx</span>) <span class="pl-k">throws</span> <span class="pl-smi">Exception</span> {
+                <span class="pl-k">return</span> company<span class="pl-k">.</span>equals(g<span class="pl-k">.</span>getCompany());
+            }
+        })
+        .sortBy(<span class="pl-k">new</span> <span class="pl-k">IFunction&lt;<span class="pl-smi">Guest</span>, <span class="pl-smi">Integer</span>&gt;</span>() {
+            <span class="pl-k">public</span> <span class="pl-smi">Integer</span> <span class="pl-en">execute</span>(<span class="pl-smi">Guest</span> <span class="pl-v">g</span>, <span class="pl-smi">ExecCtx</span> <span class="pl-v">ctx</span>) <span class="pl-k">throws</span> <span class="pl-smi">Exception</span> {
+                <span class="pl-k">return</span> g<span class="pl-k">.</span>getGrade();
+            }
+        })
+        .map(<span class="pl-k">new</span> <span class="pl-k">IFunction&lt;<span class="pl-smi">Guest</span>, <span class="pl-smi">String</span>&gt;</span>() {
+            <span class="pl-k">public</span> <span class="pl-smi">String</span> <span class="pl-en">execute</span>(<span class="pl-smi">Guest</span> <span class="pl-v">g</span>, <span class="pl-smi">ExecCtx</span> <span class="pl-v">ctx</span>) <span class="pl-k">throws</span> <span class="pl-smi">Exception</span> {
+                <span class="pl-k">return</span> g<span class="pl-k">.</span>getName();
+            }
+        })<span class="pl-k">.</span>get();
+}</pre></div>
+
+<h3>
+<a id="lambdaj" class="anchor" href="#lambdaj" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://code.google.com/p/lambdaj">Lambdaj</a>
+</h3>
+
+<p><a href="src/main/java/com/naver/helloworld/resort/service/LambdaJResort.java">LambdaJResort.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">import static</span> <span class="pl-smi">ch.lambdaj.Lambda.*</span>;
+<span class="pl-k">import static</span> <span class="pl-smi">org.hamcrest.Matchers.*</span>;
+<span class="pl-c1">...</span>
+
+<span class="pl-k">public</span> <span class="pl-k">List&lt;<span class="pl-smi">String</span>&gt;</span> findGuestNamesByCompany(<span class="pl-k">final</span> <span class="pl-smi">String</span> company) {
+    <span class="pl-k">List&lt;<span class="pl-smi">Guest</span>&gt;</span> all <span class="pl-k">=</span> repository<span class="pl-k">.</span>findAll();
+    <span class="pl-k">return</span> <span class="pl-smi">LambdaCollections</span><span class="pl-k">.</span>with(all)
+        .retain(having(on(<span class="pl-smi">Guest</span><span class="pl-k">.</span>class)<span class="pl-k">.</span>getCompany(), equalTo(company)))
+        .sort(on(<span class="pl-smi">Guest</span><span class="pl-k">.</span>class)<span class="pl-k">.</span>getGrade())
+        .extract(on(<span class="pl-smi">Guest</span><span class="pl-k">.</span>class)<span class="pl-k">.</span>getName());
+}</pre></div>
+
+<h3>
+<a id="functional-java" class="anchor" href="#functional-java" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="http://functionaljava.org/">Functional Java</a>
+</h3>
+
+<p><a href="src/main/java/com/naver/helloworld/resort/service/FunctionalJavaResort.java">FunctionalJavaResort.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">List&lt;<span class="pl-smi">String</span>&gt;</span> findGuestNamesByCompany(<span class="pl-smi">String</span> company) {
+    <span class="pl-k">List&lt;<span class="pl-smi">Guest</span>&gt;</span> all <span class="pl-k">=</span> repository<span class="pl-k">.</span>findAll();
+
+    <span class="pl-k">Collection&lt;<span class="pl-smi">String</span>&gt;</span> mapped <span class="pl-k">=</span> <span class="pl-smi">Stream</span><span class="pl-k">.</span>iterableStream(all)
+        .filter(<span class="pl-k">new</span> <span class="pl-k">F&lt;<span class="pl-smi">Guest</span>, <span class="pl-smi">Boolean</span>&gt;</span>() {
+            <span class="pl-k">public</span> <span class="pl-smi">Boolean</span> <span class="pl-en">f</span>(<span class="pl-smi">Guest</span> <span class="pl-v">g</span>){
+                <span class="pl-k">return</span> company<span class="pl-k">.</span>equals(g<span class="pl-k">.</span>getCompany());
+            }
+        })
+        .sort(<span class="pl-smi">Ord</span><span class="pl-k">.</span>ord(
+            <span class="pl-k">new</span> <span class="pl-k">F&lt;<span class="pl-smi">Guest</span>, <span class="pl-k">F&lt;<span class="pl-smi">Guest</span>, <span class="pl-smi">Ordering</span>&gt;</span>&gt;</span>() {
+                <span class="pl-k">public</span> <span class="pl-k">F&lt;<span class="pl-smi">Guest</span>, <span class="pl-smi">Ordering</span>&gt;</span> <span class="pl-en">f</span>(<span class="pl-k">final</span> <span class="pl-smi">Guest</span> <span class="pl-v">a1</span>) {
+                    <span class="pl-k">return</span> <span class="pl-k">new</span> <span class="pl-k">F&lt;<span class="pl-smi">Guest</span>, <span class="pl-smi">Ordering</span>&gt;</span>() {
+                        <span class="pl-k">public</span> <span class="pl-smi">Ordering</span> <span class="pl-en">f</span>(<span class="pl-k">final</span> <span class="pl-smi">Guest</span> <span class="pl-v">a2</span>) {
+                            <span class="pl-k">int</span> x <span class="pl-k">=</span>  <span class="pl-smi">Integer</span><span class="pl-k">.</span>compare(a1<span class="pl-k">.</span>getGrade(), a2<span class="pl-k">.</span>getGrade());
+                            <span class="pl-k">return</span> x <span class="pl-k">&lt;</span> <span class="pl-c1">0</span> <span class="pl-k">?</span> <span class="pl-smi">Ordering</span><span class="pl-c1"><span class="pl-k">.</span>LT</span> <span class="pl-k">:</span> x <span class="pl-k">==</span> <span class="pl-c1">0</span> <span class="pl-k">?</span> <span class="pl-smi">Ordering</span><span class="pl-c1"><span class="pl-k">.</span>EQ</span> <span class="pl-k">:</span> <span class="pl-smi">Ordering</span><span class="pl-c1"><span class="pl-k">.</span>GT</span>;
+                    }
+                };
+            }
+        }))
+        .map(<span class="pl-k">new</span> <span class="pl-k">F&lt;<span class="pl-smi">Guest</span>, <span class="pl-smi">String</span>&gt;</span>() {
+            <span class="pl-k">public</span> <span class="pl-smi">String</span> <span class="pl-en">f</span>(<span class="pl-smi">Guest</span> <span class="pl-v">g</span>) {
+                <span class="pl-k">return</span> g<span class="pl-k">.</span>getName();
+            }
+        })
+        .toCollection();
+    <span class="pl-k">return</span> <span class="pl-k">new</span> <span class="pl-k">ArrayList&lt;<span class="pl-smi">String</span>&gt;</span>(mapped);
+}</pre></div>
+
+<h3>
+<a id="apache-commons-collections" class="anchor" href="#apache-commons-collections" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="http://commons.apache.org/proper/commons-collections/">Apache Commons Collections</a>
+</h3>
+
+<p><a href="src/main/java/com/naver/helloworld/resort/service/CommonsCollectionsResort.java">CommonsCollectionsResort.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">List&lt;<span class="pl-smi">String</span>&gt;</span> findGuestNamesByCompany(<span class="pl-k">final</span> <span class="pl-smi">String</span> company) {
+    <span class="pl-k">List&lt;<span class="pl-smi">Guest</span>&gt;</span> all <span class="pl-k">=</span> repository<span class="pl-k">.</span>findAll();
+    <span class="pl-k">List&lt;<span class="pl-smi">Guest</span>&gt;</span> filtered <span class="pl-k">=</span> <span class="pl-smi">ListUtils</span><span class="pl-k">.</span>select(all, <span class="pl-k">new</span> <span class="pl-k">Predicate&lt;<span class="pl-smi">Guest</span>&gt;</span>() {
+        <span class="pl-k">public</span> <span class="pl-k">boolean</span> <span class="pl-en">evaluate</span>(<span class="pl-smi">Guest</span> <span class="pl-v">g</span>) {
+            <span class="pl-k">return</span> company<span class="pl-k">.</span>equals(g<span class="pl-k">.</span>getCompany());
+        }
+    });
+    <span class="pl-smi">Collections</span><span class="pl-k">.</span>sort(filtered, <span class="pl-k">new</span> <span class="pl-k">Comparator&lt;<span class="pl-smi">Guest</span>&gt;</span>() {
+        <span class="pl-k">public</span> <span class="pl-k">int</span> <span class="pl-en">compare</span>(<span class="pl-smi">Guest</span> <span class="pl-v">o1</span>, <span class="pl-smi">Guest</span> <span class="pl-v">o2</span>) {
+            <span class="pl-k">return</span> <span class="pl-smi">Integer</span><span class="pl-k">.</span>compare(o1<span class="pl-k">.</span>getGrade(), o2<span class="pl-k">.</span>getGrade());
+        }
+    });
+    <span class="pl-k">Collection&lt;<span class="pl-smi">String</span>&gt;</span> names <span class="pl-k">=</span> <span class="pl-smi">CollectionUtils</span><span class="pl-k">.</span>collect(filtered, <span class="pl-k">new</span> <span class="pl-k">Transformer&lt;<span class="pl-smi">Guest</span>, <span class="pl-smi">String</span>&gt;</span>(){
+        <span class="pl-k">public</span> <span class="pl-smi">String</span> <span class="pl-en">transform</span>(<span class="pl-smi">Guest</span> <span class="pl-v">g</span>) {
+            <span class="pl-k">return</span> g<span class="pl-k">.</span>getName();
+        }
+    });
+    <span class="pl-k">return</span> <span class="pl-k">new</span> <span class="pl-k">ArrayList&lt;&gt;</span>(names);
+}</pre></div>
+
+<h3>
+<a id="jedi" class="anchor" href="#jedi" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="http://jedi.codehaus.org/">Jedi</a>
+</h3>
+
+<p><a href="src/main/java/com/naver/helloworld/resort/service/JediResort.java">JediResort.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">List&lt;<span class="pl-smi">String</span>&gt;</span> findGuestNamesByCompany(<span class="pl-k">final</span> <span class="pl-smi">String</span> company) {
+    <span class="pl-k">List&lt;<span class="pl-smi">Guest</span>&gt;</span> all <span class="pl-k">=</span> repository<span class="pl-k">.</span>findAll();
+    <span class="pl-k">List&lt;<span class="pl-smi">Guest</span>&gt;</span> filtered <span class="pl-k">=</span> <span class="pl-smi">FunctionalPrimitives</span><span class="pl-k">.</span>select(all, <span class="pl-k">new</span> <span class="pl-k">Filter&lt;<span class="pl-smi">Guest</span>&gt;</span>() {
+        <span class="pl-k">public</span> <span class="pl-smi">Boolean</span> <span class="pl-en">execute</span>(<span class="pl-smi">Guest</span> <span class="pl-v">g</span>) {
+            <span class="pl-k">return</span> company<span class="pl-k">.</span>equals(g<span class="pl-k">.</span>getCompany());
+        }
+    });
+    <span class="pl-k">List&lt;<span class="pl-smi">Guest</span>&gt;</span> sorted <span class="pl-k">=</span> <span class="pl-smi">Comparables</span><span class="pl-k">.</span>sort(filtered, <span class="pl-k">new</span> <span class="pl-k">Functor&lt;<span class="pl-smi">Guest</span>, <span class="pl-smi">Integer</span>&gt;</span>() {
+        <span class="pl-k">public</span> <span class="pl-smi">Integer</span> <span class="pl-en">execute</span>(<span class="pl-smi">Guest</span> <span class="pl-v">g</span>) {
+            <span class="pl-k">return</span> g<span class="pl-k">.</span>getGrade();
+        }
+    });
+    <span class="pl-k">return</span> <span class="pl-smi">FunctionalPrimitives</span><span class="pl-k">.</span>map(sorted, <span class="pl-k">new</span> <span class="pl-k">Functor&lt;<span class="pl-smi">Guest</span>, <span class="pl-smi">String</span>&gt;</span>() {
+        <span class="pl-k">public</span> <span class="pl-smi">String</span> <span class="pl-en">execute</span>(<span class="pl-smi">Guest</span> <span class="pl-v">g</span>) {
+            <span class="pl-k">return</span> g<span class="pl-k">.</span>getName();
+        }
+    });
+}</pre></div>
+
+<h2>
+<a id="implementations-by-other-jvm-languages" class="anchor" href="#implementations-by-other-jvm-languages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Implementations by other JVM languages</h2>
+
+<ul>
+<li>Groovy : 2.3.9</li>
+<li>Scala :  2.11.4</li>
+<li>Kotlin : 0.10.195</li>
+<li>Xtend : 2.7</li>
+<li>Ceylon : 1.1.0</li>
+</ul>
+
+<h3>
+<a id="groovy" class="anchor" href="#groovy" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="http://groovy.codehaus.org/">Groovy</a>
+</h3>
+
+<p><a href="src/main/groovy/com/naver/helloworld/resort/service/GroovyAdvancedResort.groovy">GroovyAdvancedResort.groovy</a></p>
+
+<div class="highlight highlight-source-groovy"><pre><span class="pl-k">List&lt;<span class="pl-k">String</span>&gt;</span> <span class="pl-en">findGuestNamesByCompany</span>(<span class="pl-k">String</span> <span class="pl-v">company</span>) {
+    <span class="pl-k">List&lt;<span class="pl-k">Guest</span>&gt;</span> all <span class="pl-k">=</span> repository<span class="pl-k">.</span>findAll()
+    all<span class="pl-k">.</span>findAll { it<span class="pl-k">.</span>company <span class="pl-k">==</span> company }
+        .sort { it<span class="pl-k">.</span>grade }
+        .collect { it<span class="pl-k">.</span>name }
+}</pre></div>
+
+<h3>
+<a id="scala" class="anchor" href="#scala" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="http://www.scala-lang.org/">Scala</a>
+</h3>
+
+<p><a href="src/main/scala/com/naver/helloworld/resort/service/ScalaAdvancedResort.scala">ScalaAdvancedResort.scala</a></p>
+
+<div class="highlight highlight-source-scala"><pre><span class="pl-k">import</span> <span class="pl-v">scala.collection.JavaConversions.</span><span class="pl-v">_</span>
+...
+
+    <span class="pl-k">def</span> <span class="pl-en">findGuestNamesByCompany</span>(<span class="pl-v">company</span>: <span class="pl-k">String</span>)<span class="pl-k">:</span> java.util.<span class="pl-en">List</span>[<span class="pl-k">String</span>] <span class="pl-k">=</span> {
+        <span class="pl-k">val</span> <span class="pl-en">all</span> <span class="pl-k">=</span> repository.findAll
+        all.filter ( _.getCompany <span class="pl-k">==</span> company)
+            .sortBy ( _.getGrade )
+            .map ( _.getName )
+    }</pre></div>
+
+<h3>
+<a id="kotlin" class="anchor" href="#kotlin" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="http://kotlinlang.org">Kotlin</a>
+</h3>
+
+<p><a href="src/main/kotlin/com/naver/helloworld/resort/service/KotlinAdvancedResort.kt">KotlinAdvancedResort.kt</a></p>
+
+<div class="highlight highlight-source-Kotlin"><pre>
+    <span class="pl-k">override</span> <span class="pl-k">fun</span> <span class="pl-en">findGuestNamesByCompany</span>(<span class="pl-smi">company</span><span class="pl-k">:</span> <span class="pl-k">String</span>)<span class="pl-k">:</span> <span class="pl-k">List</span>&lt;<span class="pl-k">String</span>&gt; {
+        <span class="pl-k">val</span> <span class="pl-en">all</span> <span class="pl-k">=</span> repository<span class="pl-k">.</span>findAll()
+        <span class="pl-k">return</span> all<span class="pl-k">.</span>filter { it<span class="pl-k">.</span>getCompany() <span class="pl-k">==</span> company }
+            <span class="pl-k">.</span>sortBy { it<span class="pl-k">.</span>getGrade() }
+            <span class="pl-k">.</span>map { it<span class="pl-k">.</span>getName() }
+    }</pre></div>
+
+<h3>
+<a id="xtend" class="anchor" href="#xtend" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="http://www.eclipse.org/xtend/">Xtend</a>
+</h3>
+
+<p><a href="src/main/xtend/com/naver/helloworld/resort/service/XtendAdvancedResort.xtend">XtendAdvancedResort.xtend</a></p>
+
+<div class="highlight highlight-source-xtend"><pre>override findGuestNamesByCompany(<span class="pl-en">String</span> aCompany) {
+    <span class="pl-k">val</span> all <span class="pl-k">=</span> repository<span class="pl-k">.</span>findAll()
+    all<span class="pl-k">.</span>filter [company <span class="pl-k">==</span> aCompany]
+<span class="pl-k">        <span class="pl-k">.</span></span>sortBy[grade]
+<span class="pl-k">        <span class="pl-k">.</span></span>map[name]
+}</pre></div>
+
+<h3>
+<a id="ceylon" class="anchor" href="#ceylon" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="http://ceylon-lang.org/">Ceylon</a>
+</h3>
+
+<p><a href="src/main/ceylon/com/naver/helloworld/resort/service/resort.ceylon">resort.ceylon</a></p>
+
+<div class="highlight highlight-source-ceylon"><pre><span class="pl-k">import</span><span class="pl-v"> ceylon.interop.java </span>{ <span class="pl-en">CeylonIterable</span> }
+<span class="pl-k">import</span><span class="pl-v"> java.util </span>{<span class="pl-en">JList</span> = <span class="pl-en">List</span>, <span class="pl-en">JArrayList</span> = <span class="pl-en">ArrayList</span> }
+<span class="pl-k">import</span><span class="pl-v"> java.lang </span>{<span class="pl-en">JString</span> = <span class="pl-en">String</span>}
+
+...
+
+    <span class="pl-k">shared</span> <span class="pl-k">actual</span> <span class="pl-en">JList</span>&lt;<span class="pl-en">JString</span>&gt; <span class="pl-smi">findGuestNamesByCompany</span>(<span class="pl-en">String</span> <span class="pl-smi">company</span>) {
+        <span class="pl-k">value</span> <span class="pl-smi">all</span> = <span class="pl-smi">repository</span>.<span class="pl-smi">findAll</span>() ;
+        <span class="pl-k">value</span> <span class="pl-smi">names</span> = <span class="pl-en">CeylonIterable</span>(<span class="pl-smi">all</span>)
+            .<span class="pl-smi">filter</span>((<span class="pl-en">Guest</span> <span class="pl-smi">g</span>) =&gt; <span class="pl-smi">g</span>.<span class="pl-smi">company</span> == <span class="pl-smi">company</span>)
+            .<span class="pl-smi">sort</span>(<span class="pl-smi">byIncreasing</span>((<span class="pl-en">Guest</span> <span class="pl-smi">g</span>) =&gt; <span class="pl-smi">g</span>.<span class="pl-smi">grade</span>.<span class="pl-smi">intValue</span>()))
+            .<span class="pl-smi">map</span>((<span class="pl-en">Guest</span> <span class="pl-smi">g</span>) =&gt; <span class="pl-smi">g</span>.<span class="pl-smi">name</span>);
+
+        <span class="pl-k">value</span> <span class="pl-smi">jnames</span> = <span class="pl-en">JArrayList</span>&lt;<span class="pl-en">JString</span>&gt;();
+        <span class="pl-k">for</span> (<span class="pl-smi">name</span> <span class="pl-k">in</span> <span class="pl-smi">names</span>) {<span class="pl-smi">jnames</span>.<span class="pl-smi">add</span>(<span class="pl-en">JString</span>(<span class="pl-smi">name</span>));}
+        <span class="pl-k">return</span> <span class="pl-smi">jnames</span>;
+    }</pre></div>
+
+<h2>
+<a id="implementations-by-modern-java" class="anchor" href="#implementations-by-modern-java" aria-hidden="true"><span class="octicon octicon-link"></span></a>Implementations by modern Java</h2>
+
+<p><a href="src/main/java/com/naver/helloworld/resort/service/ModernJavaAdvancedResort.java">ModernJavaAdvancedResort.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">List&lt;<span class="pl-smi">String</span>&gt;</span> findGuestNamesByCompany(<span class="pl-smi">String</span> company) {
+    <span class="pl-k">List&lt;<span class="pl-smi">Guest</span>&gt;</span> guests <span class="pl-k">=</span> repository<span class="pl-k">.</span>findAll();
+    <span class="pl-k">return</span> guests<span class="pl-k">.</span>stream()
+        .filter(g <span class="pl-k">-</span><span class="pl-k">&gt;</span> company<span class="pl-k">.</span>equals(g<span class="pl-k">.</span>getCompany()))
+        .sorted(<span class="pl-smi">Comparator</span><span class="pl-k">.</span>comparing(<span class="pl-smi">Guest</span><span class="pl-k">::</span>getGrade))
+        .map(<span class="pl-smi">Guest</span><span class="pl-k">::</span>getName)
+        .collect(<span class="pl-smi">Collectors</span><span class="pl-k">.</span>toList());
+}</pre></div>
+
+<h1>
+<a id="refactoring-by-lambda-expressions" class="anchor" href="#refactoring-by-lambda-expressions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Refactoring by lambda expressions</h1>
+
+<h2>
+<a id="async-servlet" class="anchor" href="#async-servlet" aria-hidden="true"><span class="octicon octicon-link"></span></a>Async Servlet</h2>
+
+<h3>
+<a id="classic-java" class="anchor" href="#classic-java" aria-hidden="true"><span class="octicon octicon-link"></span></a>Classic Java</h3>
+
+<p><a href="src/main/java/com/naver/helloworld/web/ClassicAsyncServlet.java">ClassicAsyncServlet.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">void</span> doGet(<span class="pl-k">final</span> <span class="pl-smi">HttpServletRequest</span> request, <span class="pl-smi">HttpServletResponse</span> response) throws <span class="pl-smi">ServletException</span>, <span class="pl-smi">IOException</span> {
+    <span class="pl-k">final</span> <span class="pl-smi">AsyncContext</span> asyncContext <span class="pl-k">=</span> request<span class="pl-k">.</span>startAsync();
+        asyncContext<span class="pl-k">.</span>start(<span class="pl-k">new</span> <span class="pl-smi">Runnable</span>() {
+        <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">run</span>() {
+            <span class="pl-c">// long running job</span>
+            asyncContext<span class="pl-k">.</span>dispatch(<span class="pl-s"><span class="pl-pds">"</span>/status.jsp<span class="pl-pds">"</span></span>);
+        }
+        });
+}</pre></div>
+
+<h3>
+<a id="modern-java" class="anchor" href="#modern-java" aria-hidden="true"><span class="octicon octicon-link"></span></a>Modern Java</h3>
+
+<p><a href="src/main/java/com/naver/helloworld/web/ModernAsyncServlet.java">ModernAsyncServlet.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">void</span> doGet(<span class="pl-k">final</span> <span class="pl-smi">HttpServletRequest</span> request, <span class="pl-smi">HttpServletResponse</span> response) throws <span class="pl-smi">ServletException</span>, <span class="pl-smi">IOException</span> {
+    <span class="pl-smi">AsyncContext</span> asyncContext <span class="pl-k">=</span> request<span class="pl-k">.</span>startAsync();
+    asyncContext<span class="pl-k">.</span>start(() <span class="pl-k">-</span><span class="pl-k">&gt;</span> {
+        <span class="pl-c">// long running job</span>
+        asyncContext<span class="pl-k">.</span>dispatch(<span class="pl-s"><span class="pl-pds">"</span>/status.jsp<span class="pl-pds">"</span></span>);
+        });
+}</pre></div>
+
+<h2>
+<a id="spring-jdbc" class="anchor" href="#spring-jdbc" aria-hidden="true"><span class="octicon octicon-link"></span></a>Spring JDBC</h2>
+
+<h3>
+<a id="classic-java-1" class="anchor" href="#classic-java-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Classic Java</h3>
+
+<p><a href="src/main/java/com/naver/helloworld/resort/repository/ClassicJdbcRepository.java">ClassicJdbcRepository.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">List&lt;<span class="pl-smi">Guest</span>&gt;</span> findAll() {
+    <span class="pl-k">return</span> jdbcTemplate<span class="pl-k">.</span>query(<span class="pl-c1">SELECT_ALL</span>, <span class="pl-k">new</span> <span class="pl-k">RowMapper&lt;<span class="pl-smi">Guest</span>&gt;</span>(){
+        <span class="pl-k">public</span> <span class="pl-smi">Guest</span> <span class="pl-en">mapRow</span>(<span class="pl-smi">ResultSet</span> <span class="pl-v">rs</span>, <span class="pl-k">int</span> <span class="pl-v">rowNum</span>) <span class="pl-k">throws</span> <span class="pl-smi">SQLException</span> {
+            <span class="pl-k">return</span>  <span class="pl-k">new</span> <span class="pl-smi">Guest</span> (
+                rs<span class="pl-k">.</span>getInt(<span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>),
+                rs<span class="pl-k">.</span>getString(<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>),
+                rs<span class="pl-k">.</span>getString(<span class="pl-s"><span class="pl-pds">"</span>company<span class="pl-pds">"</span></span>),
+                rs<span class="pl-k">.</span>getInt(<span class="pl-s"><span class="pl-pds">"</span>grade<span class="pl-pds">"</span></span>)
+            );
+    }
+  });
+}</pre></div>
+
+<h3>
+<a id="modern-java-1" class="anchor" href="#modern-java-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Modern Java</h3>
+
+<p><a href="src/main/java/com/naver/helloworld/resort/repository/ModernJdbcRepository.java">ModernJdbcRepository.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">List&lt;<span class="pl-smi">Guest</span>&gt;</span> findAll() {
+    <span class="pl-k">return</span> jdbcTemplate<span class="pl-k">.</span>query(<span class="pl-c1">SELECT_ALL</span>,
+        (rs, rowNum) <span class="pl-k">-</span><span class="pl-k">&gt;</span><span class="pl-k">new</span> <span class="pl-smi">Guest</span> (
+            rs<span class="pl-k">.</span>getInt(<span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>),
+            rs<span class="pl-k">.</span>getString(<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>),
+            rs<span class="pl-k">.</span>getString(<span class="pl-s"><span class="pl-pds">"</span>company<span class="pl-pds">"</span></span>),
+            rs<span class="pl-k">.</span>getInt(<span class="pl-s"><span class="pl-pds">"</span>grade<span class="pl-pds">"</span></span>)
+            )
+  );
+}</pre></div>
+
+<h3>
+<a id="event-bindings-in-android" class="anchor" href="#event-bindings-in-android" aria-hidden="true"><span class="octicon octicon-link"></span></a>Event bindings in Android</h3>
+
+<h3>
+<a id="classic-java-2" class="anchor" href="#classic-java-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Classic Java</h3>
+
+<p><a href="src/main/java/com/naver/helloworld/resort/android/ClassicFragment.java">ClassicFragment.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">Button</span> calcButton <span class="pl-k">=</span> (<span class="pl-smi">Button</span>) view<span class="pl-k">.</span>findViewById(<span class="pl-smi">R</span><span class="pl-k">.</span>id<span class="pl-k">.</span>calcBtn);
+<span class="pl-smi">Button</span> sendButton <span class="pl-k">=</span> (<span class="pl-smi">Button</span>) view<span class="pl-k">.</span>findViewById(<span class="pl-smi">R</span><span class="pl-k">.</span>id<span class="pl-k">.</span>sendBtn);
+
+calcButton<span class="pl-k">.</span>setOnClickListener(<span class="pl-k">new</span> <span class="pl-smi">OnClickListener</span>() {
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onClick</span>(<span class="pl-smi">View</span> <span class="pl-v">view</span>) {
+        calculate();
+    }
+});
+sendButton<span class="pl-k">.</span>setOnClickListener(<span class="pl-k">new</span> <span class="pl-smi">OnClickListener</span>() {
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onClick</span>(<span class="pl-smi">View</span> <span class="pl-v">view</span>) {
+        send();
+    }
+});</pre></div>
+
+<h3>
+<a id="modern-java-2" class="anchor" href="#modern-java-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Modern Java</h3>
+
+<p><a href="src/main/java/com/naver/helloworld/web/ModernAsyncServlet.java">ModernFragment.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">Button</span> calcButton <span class="pl-k">=</span> (<span class="pl-smi">Button</span>) view<span class="pl-k">.</span>findViewById(<span class="pl-smi">R</span><span class="pl-k">.</span>id<span class="pl-k">.</span>calcBtn);
+<span class="pl-smi">Button</span> sendButton <span class="pl-k">=</span> (<span class="pl-smi">Button</span>) view<span class="pl-k">.</span>findViewById(<span class="pl-smi">R</span><span class="pl-k">.</span>id<span class="pl-k">.</span>sendBtn);
+
+calcButton<span class="pl-k">.</span>setOnClickListener(v <span class="pl-k">-</span><span class="pl-k">&gt;</span> calculate());
+sendButton<span class="pl-k">.</span>setOnClickListener(v <span class="pl-k">-</span><span class="pl-k">&gt;</span> send());</pre></div>
+
+<h1>
+<a id="frameworks-using-lambda-expressions" class="anchor" href="#frameworks-using-lambda-expressions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Frameworks using lambda expressions</h1>
+
+<h3>
+<a id="lambda-behave" class="anchor" href="#lambda-behave" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="http://richardwarburton.github.io/lambda-behave/">Lambda Behave</a>
+</h3>
+
+<p><a href="src/test/java/com/naver/helloworld/resort/service/ResortServiceSpec.java">ResortServiceSpec.java</a></p>
+
+<div class="highlight highlight-source-java"><pre>@RunWith(<span class="pl-smi">JunitSuiteRunner</span><span class="pl-k">.</span>class)
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">ResortServiceSpec</span> {{
+    <span class="pl-smi">GuestRepository</span> repository <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">MemoryRepository</span>();
+    <span class="pl-smi">ResortService</span> service <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">ModernJavaResort</span>(repository);
+
+    describe(<span class="pl-s"><span class="pl-pds">"</span>ResortService with modern Java<span class="pl-pds">"</span></span>, it <span class="pl-k">-</span><span class="pl-k">&gt;</span> {
+        it<span class="pl-k">.</span>isSetupWith(() <span class="pl-k">-</span><span class="pl-k">&gt;</span> {
+            repository<span class="pl-k">.</span>save(
+                    <span class="pl-k">new</span> <span class="pl-smi">Guest</span>(<span class="pl-c1">1</span>, <span class="pl-s"><span class="pl-pds">"</span>jsh<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Naver<span class="pl-pds">"</span></span>, <span class="pl-c1">15</span>),
+                    <span class="pl-k">new</span> <span class="pl-smi">Guest</span>(<span class="pl-c1">2</span>, <span class="pl-s"><span class="pl-pds">"</span>hny<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Line<span class="pl-pds">"</span></span>, <span class="pl-c1">10</span>),
+                    <span class="pl-k">new</span> <span class="pl-smi">Guest</span>(<span class="pl-c1">3</span>, <span class="pl-s"><span class="pl-pds">"</span>chy<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Naver<span class="pl-pds">"</span></span>, <span class="pl-c1">5</span>)
+                );
+
+        });
+        it<span class="pl-k">.</span>isConcludedWith(repository<span class="pl-k">::</span>deleteAll);
+
+        it<span class="pl-k">.</span>should(<span class="pl-s"><span class="pl-pds">"</span>find names of guests by company <span class="pl-pds">"</span></span>, expect <span class="pl-k">-</span><span class="pl-k">&gt;</span> {
+            <span class="pl-k">List&lt;<span class="pl-smi">String</span>&gt;</span> names <span class="pl-k">=</span> service<span class="pl-k">.</span>findGuestNamesByCompany(<span class="pl-s"><span class="pl-pds">"</span>Naver<span class="pl-pds">"</span></span>);
+            expect<span class="pl-k">.</span>that(names)<span class="pl-k">.</span>isEqualTo(<span class="pl-smi">Arrays</span><span class="pl-k">.</span>asList(<span class="pl-s"><span class="pl-pds">"</span>chy<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>jsh<span class="pl-pds">"</span></span>));
+        });
+    });
+}}</pre></div>
+
+<h3>
+<a id="jinq" class="anchor" href="#jinq" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="http://www.jinq.org/">Jinq</a>
+</h3>
+
+<p><a href="src/main/java/com/naver/helloworld/resort/service/JinqResort.java">JinqResort.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">private</span> <span class="pl-smi">EntityManager</span> em;
+@<span class="pl-smi">Autowired</span>
+<span class="pl-k">public</span> JinqResort(<span class="pl-smi">EntityManager</span> em) {
+    <span class="pl-v">this</span><span class="pl-k">.</span>em <span class="pl-k">=</span> em;
+}
+<span class="pl-k">private</span> <span class="pl-k">&lt;</span><span class="pl-smi">T</span><span class="pl-k">&gt;</span> <span class="pl-k">JinqStream&lt;<span class="pl-smi">T</span>&gt;</span> stream(<span class="pl-k">Class&lt;<span class="pl-smi">T</span>&gt;</span> clazz) {
+    <span class="pl-k">return</span> <span class="pl-k">new</span> <span class="pl-smi">JinqJPAStreamProvider</span>(em<span class="pl-k">.</span>getEntityManagerFactory())<span class="pl-k">.</span>streamAll(em, clazz);
+}
+
+<span class="pl-k">public</span> <span class="pl-k">List&lt;<span class="pl-smi">String</span>&gt;</span> findGuestNamesByCompany(<span class="pl-smi">String</span> company) {
+    <span class="pl-k">return</span> stream(<span class="pl-smi">Guest</span><span class="pl-k">.</span>class)
+        .where(g <span class="pl-k">-</span><span class="pl-k">&gt;</span> g<span class="pl-k">.</span>getCompany()<span class="pl-k">.</span>equals(company))
+        .sortedBy(<span class="pl-smi">Guest</span><span class="pl-k">::</span>getGrade)
+        .select(<span class="pl-smi">Guest</span><span class="pl-k">::</span>getName)
+        .toList();
+}</pre></div>
+
+<p>A query generated by JinqResort</p>
+
+<div class="highlight highlight-source-sql"><pre>    Hibernate: <span class="pl-k">select</span> <span class="pl-c1">guest0_</span>.<span class="pl-c1">id</span> <span class="pl-k">as</span> id1_0_, <span class="pl-c1">guest0_</span>.<span class="pl-c1">company</span> <span class="pl-k">as</span> company2_0_, <span class="pl-c1">guest0_</span>.<span class="pl-c1">grade</span> <span class="pl-k">as</span> grade3_0_, <span class="pl-c1">guest0_</span>.<span class="pl-c1">name</span> <span class="pl-k">as</span> name4_0_ <span class="pl-k">from</span> guest guest0_ <span class="pl-k">where</span> <span class="pl-c1">guest0_</span>.<span class="pl-c1">company</span><span class="pl-k">=</span>? <span class="pl-k">order by</span> <span class="pl-c1">guest0_</span>.<span class="pl-c1">grade</span> <span class="pl-k">ASC</span> <span class="pl-k">limit</span> ?</pre></div>
+
+<h3>
+<a id="spark" class="anchor" href="#spark" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="http://www.sparkjava.com/">Spark</a>
+</h3>
+
+<p><a href="src/main/java/com/naver/helloworld/web/SparkServer.java">SparkServer.java</a></p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">import static</span> <span class="pl-smi">spark.Spark.*</span>;
+
+<span class="pl-k">import</span> <span class="pl-smi">com.naver.helloworld.resort.service.ResortService</span>;
+
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">SparkServer</span> {
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">void</span> <span class="pl-en">main</span>(<span class="pl-k">String</span>[] <span class="pl-v">args</span>) {
+        get(<span class="pl-s"><span class="pl-pds">"</span>/guests/:company<span class="pl-pds">"</span></span>, (request, response) <span class="pl-k">-</span><span class="pl-k">&gt;</span> {
+            <span class="pl-smi">String</span> company <span class="pl-k">=</span> request<span class="pl-k">.</span>params(<span class="pl-s"><span class="pl-pds">"</span>:company<span class="pl-pds">"</span></span>);
+            <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">"</span>No guests from <span class="pl-pds">"</span></span> <span class="pl-k">+</span> company;
+        });
+    }
+}</pre></div>
+
+<p><a href="src/main/java/com/naver/helloworld/resort/ResortServer.java">ResortServer.java</a> (Spark + Spring)</p>
+
+<div class="highlight highlight-source-java"><pre>@<span class="pl-smi">SpringBootApplication</span>
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">ResortServer</span> {
+    <span class="pl-k">@Autowired</span>
+    <span class="pl-k">private</span> <span class="pl-smi">ResortService</span> service;
+
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">start</span>() {
+        get(<span class="pl-s"><span class="pl-pds">"</span>/guests/:company<span class="pl-pds">"</span></span>, (request, response) <span class="pl-k">-</span><span class="pl-k">&gt;</span> {
+            <span class="pl-smi">String</span> company <span class="pl-k">=</span> request<span class="pl-k">.</span>params(<span class="pl-s"><span class="pl-pds">"</span>:company<span class="pl-pds">"</span></span>);
+            <span class="pl-k">List&lt;<span class="pl-smi">String</span>&gt;</span> names <span class="pl-k">=</span> service<span class="pl-k">.</span>findGuestNamesByCompany(company);
+            <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">"</span>Guests from <span class="pl-pds">"</span></span> <span class="pl-k">+</span> company <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">"</span> : <span class="pl-pds">"</span></span> <span class="pl-k">+</span> names;
+        });
+    }
+
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">void</span> <span class="pl-en">main</span>(<span class="pl-k">String</span>[] <span class="pl-v">args</span>) {
+        <span class="pl-smi">ApplicationContext</span> context <span class="pl-k">=</span> <span class="pl-smi">SpringApplication</span><span class="pl-k">.</span>run(<span class="pl-smi">ResortServer</span><span class="pl-k">.</span>class);
+        context<span class="pl-k">.</span>getBean(<span class="pl-smi">ResortServer</span><span class="pl-k">.</span>class)<span class="pl-k">.</span>start();
+    }
+}</pre></div>
+        </article>
+      </div>
+    </div>
+    <footer>
+      <div class="owner">
+      <p><a href="https://github.com/benelog" class="avatar"><img src="https://avatars0.githubusercontent.com/u/910151?v=3&amp;s=60" width="48" height="48"></a> <a href="https://github.com/benelog">benelog</a> maintains <a href="https://github.com/benelog/lambda-resort">Lambda-resort</a></p>
+
+
+      </div>
+      <div class="creds">
+        <small>This page generated using <a href="https://pages.github.com/">GitHub Pages</a><br>theme by <a href="https://twitter.com/jonrohan/">Jon Rohan</a></small>
+      </div>
+    </footer>
+  </div>
+  <div class="current-section">
+    <a href="#top">Scroll to top</a>
+    <a href="https://github.com/benelog/lambda-resort/tarball/master" class="tar">tar</a><a href="https://github.com/benelog/lambda-resort/zipball/master" class="zip">zip</a><a href="" class="code">source code</a>
+    <p class="name"></p>
+  </div>
+
+  
+</body>
+</html>
